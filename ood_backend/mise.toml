@@ -1,0 +1,27 @@
+[tools]
+python = "latest"
+ruff = "latest"
+typst = "latest"
+uv = "latest"
+
+[tasks.compile]
+description = "Compile Typst documents to PDF/A-4"
+run = "typst compile --root . --pdf-standard a-4"
+
+[tasks.watch]
+description = "Automate continuous hot-reloading using the root project scope"
+run = "typst watch --root . --pdf-standard a-4"
+
+[tasks.verify]
+description = "Run the Django migration, seed, test, lint, format, and type-check verification sequence"
+run = """
+uv run python manage.py makemigrations core && \
+uv run python manage.py migrate && \
+uv run python seed.py && \
+uv run python seed.py && \
+uv run python manage.py test core && \
+uv run ruff check . && \
+uv run ruff format --check . && \
+uv run mypy .
+"""
+

@@ -1,0 +1,49 @@
+[project]
+name = "ood"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "parinya-ao", email = "flim.parinya.ao@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "django>=6.1",
+    "django-ninja>=1.7.0",
+]
+
+[project.scripts]
+ood = "ood:main"
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "django-stubs[compatible-mypy]>=6.1.0",
+    "mypy>=2.3.1",
+    "ruff>=0.16.5",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+extend-exclude = ["**/migrations/*.py", ".agents"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+strict = true
+disallow_untyped_defs = true
+warn_return_any = true
+no_implicit_optional = true
+plugins = ["mypy_django_plugin.main"]
+
+[[tool.mypy.overrides]]
+module = "core.migrations.*"
+ignore_errors = true
+
+[tool.django-stubs]
+django_settings_module = "config.settings"
