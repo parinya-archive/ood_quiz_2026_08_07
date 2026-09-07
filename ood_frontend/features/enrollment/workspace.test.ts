@@ -59,10 +59,28 @@ describe("buildWorkspace", () => {
   });
 });
 
-test("marks a full-section domain error as refreshable", () => {
-  expect(messageForEnrollmentError("SECTION_FULL")).toEqual({
-    message: "This section is full. Choose another section.",
-    refresh: true,
+test("maps every join-domain error to a refreshable enrollment message", () => {
+  const cases = [
+    ["SECTION_FULL", "This section is full. Choose another section."],
+    ["ALREADY_ENROLLED", "You are already enrolled in this section."],
+    ["ALREADY_ENROLLED_IN_OPEN_CLASS", "You are already enrolled in another section of this class."],
+    ["OPEN_CLASS_ALREADY_FINALIZED", "This class has already been finalized."],
+    ["ENROLLMENT_HISTORY_EXISTS", "This section cannot be joined again after withdrawal."],
+    ["SUBJECT_NOT_IN_CURRICULUM", "This subject is not in your curriculum."],
+    ["SECTION_CAPACITY_NOT_CONFIGURED", "This section is not open for enrollment yet."],
+    ["SECTION_NOT_FOUND", "This section no longer exists."],
+    ["STUDENT_NOT_FOUND", "This student record no longer exists."],
+  ] as const;
+
+  for (const [code, message] of cases) {
+    expect(messageForEnrollmentError(code)).toEqual({ message, refresh: true });
+  }
+});
+
+test("uses a safe non-refreshing fallback for an unknown enrollment error", () => {
+  expect(messageForEnrollmentError("UNRECOGNIZED_ERROR")).toEqual({
+    message: "Enrollment could not be completed. Please try again.",
+    refresh: false,
   });
 });
 

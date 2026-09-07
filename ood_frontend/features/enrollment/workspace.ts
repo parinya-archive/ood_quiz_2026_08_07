@@ -120,9 +120,12 @@ export function messageForEnrollmentError(code: string) {
     SECTION_FULL: { message: "This section is full. Choose another section.", refresh: true },
     ALREADY_ENROLLED: { message: "You are already enrolled in this section.", refresh: true },
     ALREADY_ENROLLED_IN_OPEN_CLASS: { message: "You are already enrolled in another section of this class.", refresh: true },
+    OPEN_CLASS_ALREADY_FINALIZED: { message: "This class has already been finalized.", refresh: true },
     ENROLLMENT_HISTORY_EXISTS: { message: "This section cannot be joined again after withdrawal.", refresh: true },
     SUBJECT_NOT_IN_CURRICULUM: { message: "This subject is not in your curriculum.", refresh: true },
-    CAPACITY_NOT_CONFIGURED: { message: "This section is not open for enrollment yet.", refresh: true },
+    SECTION_CAPACITY_NOT_CONFIGURED: { message: "This section is not open for enrollment yet.", refresh: true },
+    SECTION_NOT_FOUND: { message: "This section no longer exists.", refresh: true },
+    STUDENT_NOT_FOUND: { message: "This student record no longer exists.", refresh: true },
   };
 
   return messages[code] ?? { message: "Enrollment could not be completed. Please try again.", refresh: false };
